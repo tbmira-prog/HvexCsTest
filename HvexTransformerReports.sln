@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvexTransformerReports", "HvexTransformerReports\HvexTransformerReports.csproj", "{C7F238D6-5F60-4242-98D0-11829529D6BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7F238D6-5F60-4242-98D0-11829529D6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F238D6-5F60-4242-98D0-11829529D6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F238D6-5F60-4242-98D0-11829529D6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F238D6-5F60-4242-98D0-11829529D6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0600ABA-E8F6-4D26-907A-187CC3A37607}
+	EndGlobalSection
+EndGlobal
