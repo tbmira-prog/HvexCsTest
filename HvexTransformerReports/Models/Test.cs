@@ -16,7 +16,6 @@ namespace HvexTransformerReports.Models
         public string Status { get; set; } = null!;
 
         [MapTo("duration_in_seconds")]
-        [Required]
         public float DurationInSeconds { get; set; }
     }
 }

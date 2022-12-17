@@ -11,12 +11,17 @@ namespace HvexTransformerReports.Models
 
         [MapTo("name")]
         [Required]
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         [MapTo("email")]
         [Required]
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public IList<Transformer> Transformers { get; } = null!;
+        public IList<Transformer> Transformers { get; }
+
+        public User()
+        {
+            this.Transformers = new List<Transformer>();
+        }
     }
 }

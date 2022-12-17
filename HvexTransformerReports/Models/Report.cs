@@ -19,5 +19,10 @@ namespace HvexTransformerReports.Models
         public IList<Transformer> Transformers { get; }
 
         public Test Test { get; set; }
+
+        public Report()
+        {
+            Transformers = new List<Transformer>();
+        }
     }
 }
