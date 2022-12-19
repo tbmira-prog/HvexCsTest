@@ -3,7 +3,7 @@ using Realms;
 
 namespace HvexTransformerReports.Models
 {
-    public class Report : RealmObject
+    public class Report// : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

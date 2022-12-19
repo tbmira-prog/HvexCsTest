@@ -1,4 +1,5 @@
 ﻿using HvexTransformerReports.Models;
+using HvexTransformerReports.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvexTransformerReports.Controllers
@@ -7,13 +8,64 @@ namespace HvexTransformerReports.Controllers
     [Route("api/[controller]")]
     public class TransformersController : Controller
     {
-        [HttpGet]
-        public ActionResult Get()
-        {
-            var transformer = new Transformer()
-            { Name = "trafo_1", InternalNumber = 1, TensionClass = "75 kV", Current = "100 A", Potency = "75 MVA" };
+        private readonly TransformersService _transformersService;
 
-            return Ok(transformer);
+        public TransformersController(TransformersService transformerService) => _transformersService = transformerService;
+
+        [HttpGet]
+        public async Task<List<Transformer>> Get() => await _transformersService.GetAsync();
+
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<Transformer>> Get(string id)
+        {
+            var transformer = await _transformersService.GetAsync(id);
+
+            if (transformer is null)
+            {
+                return NotFound();
+            }
+
+            return transformer;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Transformer newTransformer)
+        {
+            await _transformersService.CreateAsync(newTransformer);
+
+            return CreatedAtAction(nameof(Get), new { id = newTransformer.Id }, newTransformer);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> Update(string id, Transformer updatedTransformer)
+        {
+            var transformer = await _transformersService.GetAsync(id);
+
+            if (transformer is null)
+            {
+                return NotFound();
+            }
+
+            updatedTransformer.Id = transformer.Id;
+
+            await _transformersService.UpdateAsync(id, updatedTransformer);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var transformer = await _transformersService.GetAsync(id);
+
+            if (transformer is null)
+            {
+                return NotFound();
+            }
+
+            await _transformersService.RemoveAsync(id);
+
+            return NoContent();
         }
     }
 }

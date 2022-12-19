@@ -1,4 +1,5 @@
 ﻿using HvexTransformerReports.Models;
+using HvexTransformerReports.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvexTransformerReports.Controllers
@@ -7,23 +8,64 @@ namespace HvexTransformerReports.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private readonly UsersService _usersService;
+
+        public UsersController(UsersService userService) => _usersService = userService;
+
         [HttpGet]
-        public ActionResult Get()
+        public async Task<List<User>> Get() => await _usersService.GetAsync();
+
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<User>> Get(string id)
         {
-            var transformer = new Transformer()
+            var user = await _usersService.GetAsync(id);
+
+            if (user is null)
             {
-                Name = "trafo_1", 
-                InternalNumber = 1, 
-                TensionClass = "75 kV", 
-                Current = "100 A", 
-                Potency = "75 MVA"
-            };
+                return NotFound();
+            }
 
-            var user = new User()
-            { Name = "Thiago", Email = "thiagao123@email.com"};
-            user.Transformers.Add(transformer);
+            return user;
+        }
 
-            return Ok(user);
+        [HttpPost]
+        public async Task<IActionResult> Post(User newUser)
+        {
+            await _usersService.CreateAsync(newUser);
+
+            return CreatedAtAction(nameof(Get), new { id = newUser.Id }, newUser);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> Update(string id, User updatedUser)
+        {
+            var user = await _usersService.GetAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            updatedUser.Id = user.Id;
+
+            await _usersService.UpdateAsync(id, updatedUser);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _usersService.GetAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            await _usersService.RemoveAsync(id);
+
+            return NoContent();
         }
     }
 }
